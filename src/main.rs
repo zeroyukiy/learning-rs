@@ -1,6 +1,8 @@
 extern crate byteorder;
 use byteorder::{LittleEndian, ReadBytesExt};
 
+mod module;
+
 use std::fs;
 use std::fs::File;
 use std::io;
@@ -30,6 +32,13 @@ struct User {
 }
 
 fn main() {
+    // Absolute path
+    crate::module::another_module::is_red();
+    // Relative path
+    module::another_module::is_red();
+
+    module::something();
+
     let to_pass = String::from("john snow");
     let sslice = string_slice(&to_pass);
     println!("{:?}", sslice);
