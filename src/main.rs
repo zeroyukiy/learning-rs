@@ -2,6 +2,10 @@ extern crate byteorder;
 use byteorder::{LittleEndian, ReadBytesExt};
 
 mod module;
+use module::another_module;
+
+mod collections;
+use collections::{vectors,strings,hash_maps};
 
 use std::fs;
 use std::fs::File;
@@ -32,12 +36,19 @@ struct User {
 }
 
 fn main() {
+    another_module::is_red();
+    module::something();
     // Absolute path
     crate::module::another_module::is_red();
     // Relative path
     module::another_module::is_red();
 
     module::something();
+
+    vectors::list();
+    vectors::multiple_types();
+    strings::general_string();
+    hash_maps::hash();
 
     let to_pass = String::from("john snow");
     let sslice = string_slice(&to_pass);
