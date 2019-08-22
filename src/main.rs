@@ -5,7 +5,10 @@ mod module;
 use module::another_module;
 
 mod collections;
-use collections::{vectors,strings,hash_maps};
+use collections::{hash_maps, strings, vectors};
+
+mod structs;
+use structs::custom_structs;
 
 use std::fs;
 use std::fs::File;
@@ -49,6 +52,16 @@ fn main() {
     vectors::multiple_types();
     strings::general_string();
     hash_maps::hash();
+
+    let user = custom_structs::create_user(
+        String::from("John"),
+        String::from("the_password_here"),
+        String::from("john@email.ext"),
+    );
+    println!("{:?}", user);
+
+    let send_message = custom_structs::send_message();
+    println!("{:?}", send_message);
 
     let to_pass = String::from("john snow");
     let sslice = string_slice(&to_pass);
