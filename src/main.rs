@@ -13,6 +13,9 @@ use structs::custom_structs;
 mod generics;
 use generics::{generic_enums, generic_structs, generic_method};
 
+mod traits;
+use traits::trait_example;
+
 use std::fs;
 use std::fs::File;
 use std::io;
@@ -83,6 +86,10 @@ fn main() {
     
     let mixed_rectangle = generic_method::create_rectangle(30, 90);
     println!("mixed rectangle is => {}", mixed_rectangle);
+
+    // Traits
+    let article = trait_example::create_article("this is a test".to_string(), "lalala".to_string());
+    println!("{}", article);
 
     let to_pass = String::from("john snow");
     let sslice = string_slice(&to_pass);

@@ -125,7 +125,7 @@ pub mod generic_method {
         };
         let rectangle2 = Rectangle {
             width: 18,
-            height: 42,
+            height: "hey",
         };
         let mixed_rectangle = rectangle.create(rectangle2);
         format!("the rectangle mixed is {:?}", mixed_rectangle)
