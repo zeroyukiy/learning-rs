@@ -10,6 +10,9 @@ use collections::{hash_maps, strings, vectors};
 mod structs;
 use structs::custom_structs;
 
+mod generics;
+use generics::{generic_enums, generic_structs, generic_method};
+
 use std::fs;
 use std::fs::File;
 use std::io;
@@ -62,6 +65,24 @@ fn main() {
 
     let send_message = custom_structs::send_message();
     println!("{:?}", send_message);
+
+    println!("{}", generic_structs::render_colors());
+    println!("{}", generic_structs::render_hex_colors());
+    println!("{}", generic_structs::render_points(36, 88.889));
+    let v: Vec<u8> = vec![1, 2, 251, 189];
+    generic_structs::render_other_points("1234".to_string(), v);
+    // this one fail Error(usernameAlreadyExist { message: "the username is already taken", type_error: "custom_error", severity: 3 })
+    println!("{:?}", generic_enums::check_username(String::from("john")));
+    // this one return Ok(true)
+    println!(
+        "{:?}",
+        generic_enums::check_username(String::from("john snow"))
+    );
+
+    generic_method::create_point();
+    
+    let mixed_rectangle = generic_method::create_rectangle(30, 90);
+    println!("mixed rectangle is => {}", mixed_rectangle);
 
     let to_pass = String::from("john snow");
     let sslice = string_slice(&to_pass);
