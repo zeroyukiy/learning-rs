@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 extern crate byteorder;
 use byteorder::{LittleEndian, ReadBytesExt};
 
@@ -11,7 +13,7 @@ mod structs;
 use structs::custom_structs;
 
 mod generics;
-use generics::{generic_enums, generic_structs, generic_method};
+use generics::{generic_enums, generic_method, generic_structs};
 
 mod traits;
 use traits::trait_example;
@@ -83,7 +85,6 @@ fn main() {
     );
 
     generic_method::create_point();
-    
     let mixed_rectangle = generic_method::create_rectangle(30, 90);
     println!("mixed rectangle is => {}", mixed_rectangle);
 
@@ -180,4 +181,16 @@ fn create_user() -> User {
 
 fn string_slice(s: &String) -> &str {
     &s[..4]
+}
+
+// Fixing the largest Function with Trait Bounds
+fn largest<T: PartialOrd>(list: &[T]) -> &T {
+    let mut largest = &list[0];
+
+    for item in list.iter() {
+        if item > largest {
+            largest = &item;
+        }
+    }
+    &largest
 }
