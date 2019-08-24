@@ -91,6 +91,8 @@ fn main() {
     let article = trait_example::create_article("this is a test".to_string(), "lalala".to_string());
     println!("{}", article);
 
+    trait_example::hello();
+
     let to_pass = String::from("john snow");
     let sslice = string_slice(&to_pass);
     println!("{:?}", sslice);
