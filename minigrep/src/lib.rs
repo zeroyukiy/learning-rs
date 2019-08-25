@@ -25,7 +25,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
         println!("{}", line);
     }
 
-    println!("With text:\n{}", contents);
+    // println!("With text:\n{}", contents);
 
     Ok(())
 }
