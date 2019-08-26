@@ -1,11 +1,11 @@
+use std::env;
 use std::error::Error;
 use std::fs;
-use std::env;
 
 pub struct Config {
     pub query: String,
     pub filename: String,
-    pub case_sensitive: bool
+    pub case_sensitive: bool,
 }
 
 impl Config {
@@ -16,16 +16,17 @@ impl Config {
 
         let query = args[1].clone();
         let filename = args[2].clone();
-        let optional_param = if args.len() == 4 {true} else                 
-        
-        
-        
-        { false};
+        let optional_param = if args.len() == 4 { true } else { false };
         let case_sensitive = if optional_param && args[3] == "--insensitive" {
             false
-        } else { env::var("CASE_INSENSITIVE").is_err() };
-        println!("{}", case_sensitive);
-        Ok(Config { query, filename, case_sensitive })
+        } else {
+            env::var("CASE_INSENSITIVE").is_err()
+        };
+        Ok(Config {
+            query,
+            filename,
+            case_sensitive,
+        })
     }
 }
 
@@ -41,8 +42,6 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     for line in results {
         println!("{}", line);
     }
-
-    // println!("With text:\n{}", contents);
 
     Ok(())
 }
@@ -102,7 +101,10 @@ safe, fast, productive.
 Pick three.
 Trust me.";
 
-        assert_eq!(vec!["Rust:", "Trust me."], search_case_insentivie(query, contents))
+        assert_eq!(
+            vec!["Rust:", "Trust me."],
+            search_case_insentivie(query, contents)
+        )
     }
 
 }
