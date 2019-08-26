@@ -18,6 +18,9 @@ use generics::{generic_enums, generic_method, generic_structs};
 mod traits;
 use traits::trait_example;
 
+mod closures;
+use closures::closures_test;
+
 use std::fs;
 use std::fs::File;
 use std::io;
@@ -93,6 +96,9 @@ fn main() {
     println!("{}", article);
 
     trait_example::hello();
+
+    // Closures
+    closures_test::main();
 
     let to_pass = String::from("john snow");
     let sslice = string_slice(&to_pass);
