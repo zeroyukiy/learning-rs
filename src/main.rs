@@ -21,6 +21,9 @@ use traits::trait_example;
 mod closures;
 use closures::closures_test;
 
+mod iterators;
+use iterators::iterator_test;
+
 use std::fs;
 use std::fs::File;
 use std::io;
@@ -50,6 +53,8 @@ struct User {
 }
 
 fn main() {
+    iterator_test();
+
     another_module::is_red();
     module::something();
     // Absolute path
