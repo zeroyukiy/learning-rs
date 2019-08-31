@@ -9,19 +9,21 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
+    pub fn new(mut args: std::env::Args) -> Result<Config, &'static str> {
+        args.next();
 
-        let query = args[1].clone();
-        let filename = args[2].clone();
-        let optional_param = if args.len() == 4 { true } else { false };
-        let case_sensitive = if optional_param && args[3] == "--insensitive" {
-            false
-        } else {
-            env::var("CASE_INSENSITIVE").is_err()
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string")
         };
+
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file name")
+        };
+
+        let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
+
         Ok(Config {
             query,
             filename,
@@ -33,10 +35,11 @@ impl Config {
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.filename)?;
 
+    println!("{}", config.case_sensitive);
     let results = if config.case_sensitive {
         search(&config.query, &contents)
     } else {
-        search_case_insentivie(&config.query, &contents)
+        search_case_insentive(&config.query, &contents)
     };
 
     for line in results {
@@ -49,31 +52,40 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 #[allow(unused_variables)]
 #[allow(dead_code)]
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = vec![];
     // Searching Each Line for the Query
     // Iterate through each line of the contents.
-    for line in contents.lines() {
-        if line.contains(query) {
-            // Storing Matching Lines
-            results.push(line)
-        }
-    }
+    contents.lines().filter(|line| {
+        line.contains(query)
+    }).collect()
 
-    results
+    // let mut results = vec![];
+    
+    // for line in contents.lines() {
+    //     if line.contains(query) {
+    //         // Storing Matching Lines
+    //         results.push(line)
+    //     }
+    // }
+
+    // results
 }
 
 #[allow(unused_variables)]
-pub fn search_case_insentivie<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let query = query.to_lowercase();
-    let mut results = vec![];
+pub fn search_case_insentive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    // let query = query.to_lowercase();
+    // let mut results = vec![];
 
-    for line in contents.lines() {
-        if line.to_lowercase().contains(&query) {
-            results.push(line)
-        }
-    }
+    // for line in contents.lines() {
+    //     if line.to_lowercase().contains(&query) {
+    //         results.push(line)
+    //     }
+    // }
 
-    results
+    // results
+
+    contents.lines().filter(|line| {
+        line.to_lowercase().contains(&query.to_lowercase())
+    }).collect()
 }
 
 #[cfg(test)]
@@ -103,7 +115,7 @@ Trust me.";
 
         assert_eq!(
             vec!["Rust:", "Trust me."],
-            search_case_insentivie(query, contents)
+            search_case_insentive(query, contents)
         )
     }
 
